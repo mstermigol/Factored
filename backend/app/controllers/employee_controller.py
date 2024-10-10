@@ -28,10 +28,6 @@ def show(employee_id: int, db: Session):
         raise HTTPException(status_code=404, detail="Employee not found")
     return EmployeeResponse.from_orm(employee)
 
-def login(authorization: str, db: Session):
-    employee = verify_credentials(authorization, db)
-    return EmployeeResponse.from_orm(employee)
-
 def update(employee_id: int, employee: EmployeeUpdate, db: Session, requester: Employee):
     
     if requester.id != employee_id:

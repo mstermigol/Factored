@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Header, Depends
 from sqlalchemy.orm import Session
-from controllers.employee_controller import index, register, show, login
-from controllers.employee_controller import index, register, show, login, update
+from controllers.employee_controller import index, register, show, update
 from schemas.employee_schema import EmployeeCreate, EmployeeResponse, EmployeeUpdate
 from db.database import get_db
 from utils.auth_utils import verify_credentials
@@ -20,9 +19,10 @@ def employee_show(employee_id: int, db: Session = Depends(get_db), _: None = Dep
 def employee_register(employee: EmployeeCreate, db: Session = Depends(get_db)):
     return register(employee, db)
 
-@router.post("/login")
-def employee_login(authorization: str = Header(None), db: Session = Depends(get_db)):
-    return login(authorization, db)
+@router.post("/login", response_model=EmployeeResponse)
+def employee_login(username: str = Header(...), password: str = Header(...), db: Session = Depends(get_db)):
+    employee = verify_credentials(username, password, db)
+    return EmployeeResponse.from_orm(employee)
 
 @router.put("/update/{employee_id}", response_model=EmployeeResponse)
 def employee_update(employee_id: int, employee: EmployeeUpdate, db: Session = Depends(get_db), requester: EmployeeResponse = Depends(verify_credentials)):
