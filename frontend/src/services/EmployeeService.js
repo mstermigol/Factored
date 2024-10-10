@@ -64,6 +64,14 @@ const logout = () => {
     localStorage.removeItem('id');
 };
 
+const isAuthenticated = () => {
+    const username = localStorage.getItem('username');
+    const password = localStorage.getItem('password');
+    
+    return username !== null && password !== null;
+  };
+  
+
 const employeeService = {
     login,
     register,
@@ -71,6 +79,7 @@ const employeeService = {
     getEmployee,
     updateEmployee,
     logout,
+    isAuthenticated
 };
 
 export default employeeService;
