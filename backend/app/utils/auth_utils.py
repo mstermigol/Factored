@@ -11,3 +11,5 @@ def verify_credentials(username: str = Header(...), password: str = Header(...),
 
     if employee is None or employee.password != password:
         raise HTTPException(status_code=401, detail="Invalid credentials")
+    
+    return employee

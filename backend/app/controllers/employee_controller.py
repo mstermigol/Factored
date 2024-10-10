@@ -1,7 +1,7 @@
-from fastapi import HTTPException, Header, Depends, status, Response
+from fastapi import HTTPException, Header, Depends
 from sqlalchemy.orm import Session
 from models.employee import Employee
-from schemas.employee_schema import EmployeeCreate, EmployeeResponse
+from schemas.employee_schema import EmployeeCreate, EmployeeResponse, EmployeeUpdate
 from utils.auth_utils import verify_credentials
 from typing import List
 from sqlalchemy.exc import IntegrityError
@@ -17,7 +17,7 @@ def register(employee: EmployeeCreate, db: Session):
         db.add(db_employee)
         db.commit()
         db.refresh(db_employee)
-        return Response(status_code=status.HTTP_204_NO_CONTENT)
+        return EmployeeResponse.from_orm(db_employee)
     except IntegrityError:
         db.rollback()
         raise ValueError("Employee already exists")
@@ -30,4 +30,29 @@ def show(employee_id: int, db: Session):
 
 def login(authorization: str, db: Session):
     employee = verify_credentials(authorization, db)
-    return Response(status_code=status.HTTP_204_NO_CONTENT)
+    return EmployeeResponse.from_orm(employee)
+
+def update(employee_id: int, employee: EmployeeUpdate, db: Session, requester: Employee):
+    
+    if requester.id != employee_id:
+        raise HTTPException(status_code=403, detail="You are not allowed to update this employee.")
+
+    db_employee = db.query(Employee).filter(Employee.id == employee_id).first()
+    if db_employee is None:
+        raise HTTPException(status_code=404, detail="Employee not found")
+
+    try:
+        db_employee.name = employee.name
+        db_employee.last_name = employee.last_name
+        db_employee.position = employee.position
+        db_employee.description = employee.description
+        
+        db_employee.skills = [{'name': skill.name, 'proficiency': skill.proficiency} for skill in employee.skills]
+
+        db.commit()
+
+        return EmployeeResponse.from_orm(db_employee)
+
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"An error occurred while updating the employee: {str(e)}")

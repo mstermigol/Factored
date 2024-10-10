@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 
 class Skill(BaseModel):
     name: str
@@ -15,9 +15,13 @@ class EmployeeBase(BaseModel):
 class EmployeeCreate(EmployeeBase):
     username: str
     password: str
+
 class EmployeeResponse(EmployeeBase):
     id: int
     username: str
 
     class Config:
         from_attributes = True
+
+class EmployeeUpdate(EmployeeBase):
+    pass
