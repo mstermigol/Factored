@@ -26,6 +26,7 @@ const login = async (username, password) => {
     
     localStorage.setItem('username', username);
     localStorage.setItem('password', password);
+    localStorage.setItem('id', response.data.id);
     
     return response.data;
 };
@@ -36,6 +37,7 @@ const register = async (userData) => {
     if (userData.username && userData.password) {
         localStorage.setItem('username', userData.username);
         localStorage.setItem('password', userData.password);
+        localStorage.setItem('id', response.data.id);
     }
 
     return response.data;
@@ -59,6 +61,7 @@ const updateEmployee = async (id, updatedData) => {
 const logout = () => {
     localStorage.removeItem('username');
     localStorage.removeItem('password');
+    localStorage.removeItem('id');
 };
 
 const employeeService = {
