@@ -1,4 +1,3 @@
-# utils.py
 from fastapi import HTTPException, Header, Depends
 from sqlalchemy.orm import Session
 from models.employee import Employee
