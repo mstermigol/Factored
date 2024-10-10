@@ -10,3 +10,5 @@ class Employee(Base):
     position = Column(String, index=True)
     description = Column(Text, index=True)
     skills = Column(JSON, index=True)
+    username = Column(String, unique=True , index=True)
+    password = Column(String)
