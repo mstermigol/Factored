@@ -32,8 +32,12 @@ const ProfileView = () => {
 
       try {
         const data = await employeeService.getEmployee(employeeId);
+        const formattedSkills = data.skills.map(skill => ({
+          ...skill,
+          proficiency: skill.proficiency * 100,
+        }));
         setProfile(data);
-        setSkills(data.skills || []);
+        setSkills(formattedSkills || []);
       } catch {
         setError('There was an error, please try again later.');
       }
@@ -47,19 +51,18 @@ const ProfileView = () => {
       ...profile,
       skills: skills.map(skill => ({
         name: skill.name,
-        proficiency: skill.proficiency
+        proficiency: skill.proficiency / 100,
       })),
     };
     
     try {
-      await employeeService.updateEmployee(employeeId ,updatedProfile);
+      await employeeService.updateEmployee(employeeId, updatedProfile);
       setMessage('Profile updated successfully!');
       setSnackbarOpen(true);
     } catch (error) {
       setError('Profile update failed: ' + error.message);
     }
   };
-  
 
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
@@ -82,7 +85,7 @@ const ProfileView = () => {
         Edit Profile
       </Typography>
       {error && (
-        <Alert severity="error" onClose={handleSnackbarClose} sx={{ mb: 2}}>
+        <Alert severity="error" onClose={handleSnackbarClose} sx={{ mb: 2 }}>
           {error}
         </Alert>
       )}
@@ -142,7 +145,7 @@ const ProfileView = () => {
       </Typography>
       {skills.map((skill, index) => (
         <Grid container spacing={2} key={index} sx={{ mb: 2 }}>
-          <Grid  xs={6}>
+          <Grid xs={6}>
             <TextField
               fullWidth
               required
@@ -153,7 +156,7 @@ const ProfileView = () => {
               helperText={!skill.name ? 'Skill name is required.' : ''}
             />
           </Grid>
-          <Grid  xs={6}>
+          <Grid xs={6}>
             <TextField
               fullWidth
               required
@@ -161,7 +164,7 @@ const ProfileView = () => {
               label={`Skill ${index + 1} Proficiency (0-100)`}
               value={skill.proficiency}
               onChange={(e) => handleSkillChange(index, 'proficiency', e.target.value)}
-              error={(skill.proficiency < 0 || skill.proficiency > 100)}
+              error={skill.proficiency < 0 || skill.proficiency > 100}
               helperText={(skill.proficiency < 0 || skill.proficiency > 100) ? 'Skill proficiency must be between 0 and 100.' : ''}
             />
           </Grid>
