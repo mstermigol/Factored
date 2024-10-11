@@ -9,7 +9,6 @@ import {
   ListItemText,
   Container,
   Typography,
-  Divider,
   Paper,
 } from '@mui/material';
 
@@ -56,7 +55,6 @@ const EmployeeListView = () => {
                 secondary={employee.position}
               />
             </ListItem>
-            <Divider />
           </Paper>
         ))}
       </List>
