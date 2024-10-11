@@ -18,9 +18,12 @@ def register(employee: EmployeeCreate, db: Session):
         db.commit()
         db.refresh(db_employee)
         return EmployeeResponse.from_orm(db_employee)
-    except IntegrityError:
+    except IntegrityError as e:
         db.rollback()
-        raise ValueError("Employee already exists")
+        if "UNIQUE constraint failed" in str(e.orig):
+            raise HTTPException(status_code=409, detail="Username already exists")
+        raise HTTPException(status_code=500, detail="Internal server error")
+
 
 def show(employee_id: int, db: Session):
     employee = db.query(Employee).filter(Employee.id == employee_id).first()
