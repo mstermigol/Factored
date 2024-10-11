@@ -52,3 +52,13 @@ Before you begin, ensure you have met the following requirements:
     ```
 
    This should display the application running locally. If you specified a different API URL, adjust the port accordingly to access the application.
+
+## How to login
+You can use any of the following usernames:
+- john.smith
+- emily.johnson
+- michael.brown
+- sarah.lee
+- david.martinez
+
+The password for all of them is `123`.
