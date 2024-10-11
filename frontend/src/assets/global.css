@@ -1,4 +1,7 @@
 .layout-main {
     padding-top: 64px;
   }
-  
+
+.text-red {
+  color: red;
+}
