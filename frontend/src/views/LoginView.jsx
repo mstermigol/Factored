@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import employeeService from '../services/EmployeeService';
 import {
   Container,
@@ -73,7 +73,7 @@ const LoginView = () => {
           </Typography>
           <Box component="form" sx={{ mt: 1, width: '100%' }} onKeyDown={handleKeyDown}>
             <Grid container direction="column" spacing={2}>
-              <Grid size={{ xs: 12}}>
+              <Grid size={{ xs: 12 }}>
                 <TextField
                   margin="normal"
                   required
@@ -89,7 +89,7 @@ const LoginView = () => {
                   helperText={usernameError ? 'Username is required' : ''}
                 />
               </Grid>
-              <Grid size={{ xs: 12}}>
+              <Grid size={{ xs: 12 }}>
                 <TextField
                   margin="normal"
                   required
@@ -106,13 +106,13 @@ const LoginView = () => {
                 />
               </Grid>
               {error && (
-                <Grid size={{ xs: 12}}>
+                <Grid size={{ xs: 12 }}>
                   <Typography color="error" variant="body2">
                     {error}
                   </Typography>
                 </Grid>
               )}
-              <Grid size={{ xs: 12}}>
+              <Grid size={{ xs: 12 }}>
                 <Button
                   type="button"
                   fullWidth
@@ -122,6 +122,13 @@ const LoginView = () => {
                 >
                   Login
                 </Button>
+              </Grid>
+              <Grid size={{ xs: 12 }}>
+                <Typography variant="body2" sx={{ textAlign: 'center' }}>
+                  <Link to="/register" style={{ textDecoration: 'none', color: 'grey'}}>
+                    Register
+                  </Link>
+                </Typography>
               </Grid>
             </Grid>
           </Box>
