@@ -73,7 +73,7 @@ const LoginView = () => {
           </Typography>
           <Box component="form" sx={{ mt: 1, width: '100%' }} onKeyDown={handleKeyDown}>
             <Grid container direction="column" spacing={2}>
-              <Grid item xs={12}>
+              <Grid size={{ xs: 12}}>
                 <TextField
                   margin="normal"
                   required
@@ -89,7 +89,7 @@ const LoginView = () => {
                   helperText={usernameError ? 'Username is required' : ''}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid size={{ xs: 12}}>
                 <TextField
                   margin="normal"
                   required
@@ -106,13 +106,13 @@ const LoginView = () => {
                 />
               </Grid>
               {error && (
-                <Grid item xs={12}>
+                <Grid size={{ xs: 12}}>
                   <Typography color="error" variant="body2">
                     {error}
                   </Typography>
                 </Grid>
               )}
-              <Grid item xs={12}>
+              <Grid size={{ xs: 12}}>
                 <Button
                   type="button"
                   fullWidth

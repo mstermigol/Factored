@@ -75,14 +75,14 @@ const EmployeeDetailView = () => {
     <Container maxWidth="md">
       <Paper elevation={3} sx={{ padding: 4, marginTop: 4 }}>
         <Grid container spacing={2} sx={{ alignItems: 'center' }}>
-          <Grid item xs={12} sm={4} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Grid size={{ xs: 12, sm: 4 }} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Avatar
               alt={`${employee.name} ${employee.last_name}`}
               src={`https://avatar.iran.liara.run/public/${id}`}
               sx={{ width: 150, height: 150 }}
             />
           </Grid>
-          <Grid item xs={12} sm={8} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', mx: 'auto'}}>
+          <Grid size={{ xs: 12, sm: 8 }} sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', mx: 'auto'}}>
             <Typography variant="h4" gutterBottom>
               {`${employee.name} ${employee.last_name}`}
             </Typography>
