@@ -15,28 +15,63 @@ const LoginView = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [usernameError, setUsernameError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async () => {
+    setError('');
+    setUsernameError(false);
+    setPasswordError(false);
+
+    if (!username || !password) {
+      if (!username) setUsernameError(true);
+      if (!password) setPasswordError(true);
+      setError('Username and password are required.');
+      return;
+    }
+
     try {
       await employeeService.login(username, password);
       navigate('/');
-    } catch (error) {
-      setError('Login failed: ' + error.message);
+    } catch {
+      setError('Invalid credentials. Please try again.');
+    }
+  };
+
+  const handleUsernameErrorDismiss = (e) => {
+    setUsername(e.target.value);
+    if (e.target.value) {
+      setUsernameError(false);
+      setError('');
+    }
+  };
+
+  const handlePasswordErrorDismiss = (e) => {
+    setPassword(e.target.value);
+    if (e.target.value) {
+      setPasswordError(false);
+      setError('');
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleLogin();
     }
   };
 
   return (
     <Container
       component="main"
-      sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh'}}
+      sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}
     >
       <Paper elevation={3} sx={{ padding: { xs: 2, sm: 4 }, width: '100%', maxWidth: '450px' }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
           <Typography component="h1" variant="h4">
             Login
           </Typography>
-          <Box component="form" sx={{ mt: 1, width: '100%' }}>
+          <Box component="form" sx={{ mt: 1, width: '100%' }} onKeyDown={handleKeyDown}>
             <Grid container direction="column" spacing={2}>
               <Grid item xs={12}>
                 <TextField
@@ -49,7 +84,9 @@ const LoginView = () => {
                   autoComplete="username"
                   autoFocus
                   value={username}
-                  onChange={(e) => setUsername(e.target.value)}
+                  onChange={handleUsernameErrorDismiss}
+                  error={usernameError}
+                  helperText={usernameError ? 'Username is required' : ''}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -63,7 +100,9 @@ const LoginView = () => {
                   id="password"
                   autoComplete="current-password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={handlePasswordErrorDismiss}
+                  error={passwordError}
+                  helperText={passwordError ? 'Password is required' : ''}
                 />
               </Grid>
               {error && (
