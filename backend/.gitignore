@@ -12,11 +12,6 @@ ENV/
 .vscode/
 .idea/
 
-# Database files
-*.sqlite3
-*.sqlite
-*.db
-
 # Logs
 *.log
 
