@@ -7,8 +7,10 @@ import {
   Button,
   Snackbar,
   Alert,
+  IconButton,
 } from '@mui/material';
 import Grid from '@mui/material/Grid2';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const ProfileView = () => {
   const [profile, setProfile] = useState({
@@ -71,6 +73,13 @@ const ProfileView = () => {
 
   const handleAddSkill = () => {
     setSkills((prevSkills) => [...prevSkills, { name: '', proficiency: 0 }]);
+  };
+
+  const handleDeleteSkill = (index) => {
+    if (skills.length > 5) {
+      const updatedSkills = skills.filter((_, i) => i !== index);
+      setSkills(updatedSkills);
+    }
   };
 
   const handleSkillChange = (index, field, value) => {
@@ -144,8 +153,8 @@ const ProfileView = () => {
         Skills
       </Typography>
       {skills.map((skill, index) => (
-        <Grid container spacing={2} key={index} sx={{ mb: 2 }}>
-          <Grid xs={6}>
+        <Grid container spacing={2} key={index} sx={{ mb: 2 }} alignItems="center">
+          <Grid xs={5}>
             <TextField
               fullWidth
               required
@@ -156,7 +165,7 @@ const ProfileView = () => {
               helperText={!skill.name ? 'Skill name is required.' : ''}
             />
           </Grid>
-          <Grid xs={6}>
+          <Grid xs={5}>
             <TextField
               fullWidth
               required
@@ -165,8 +174,17 @@ const ProfileView = () => {
               value={skill.proficiency}
               onChange={(e) => handleSkillChange(index, 'proficiency', e.target.value)}
               error={skill.proficiency < 0 || skill.proficiency > 100}
-              helperText={(skill.proficiency < 0 || skill.proficiency > 100) ? 'Skill proficiency must be between 0 and 100.' : ''}
+              helperText={(skill.proficiency < 0 || skill.proficiency > 100) ? 'Proficiency must be between 0 and 100.' : ''}
             />
+          </Grid>
+          <Grid xs={2} display="flex" justifyContent="center">
+            <IconButton
+              color="error"
+              onClick={() => handleDeleteSkill(index)}
+              disabled={skills.length <= 5}
+            >
+              <DeleteIcon />
+            </IconButton>
           </Grid>
         </Grid>
       ))}
