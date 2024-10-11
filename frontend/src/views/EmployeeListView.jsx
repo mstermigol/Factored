@@ -3,13 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import employeeService from '../services/EmployeeService';
 import {
   List,
-  ListItem,
   ListItemAvatar,
   Avatar,
   ListItemText,
   Container,
   Typography,
   Paper,
+  ListItemButton,
 } from '@mui/material';
 
 const EmployeeListView = () => {
@@ -43,7 +43,7 @@ const EmployeeListView = () => {
       <List>
         {employees.map((employee) => (
           <Paper key={employee.id} elevation={3} sx={{ marginBottom: 2 }}>
-            <ListItem onClick={() => viewEmployeeDetails(employee.id)} sx={{'&:hover': {cursor: 'pointer'}}} button>
+            <ListItemButton onClick={() => viewEmployeeDetails(employee.id)} sx={{'&:hover': {cursor: 'pointer'}}}>
               <ListItemAvatar>
                 <Avatar
                   alt={`${employee.name} ${employee.last_name}`}
@@ -54,7 +54,7 @@ const EmployeeListView = () => {
                 primary={`${employee.name} ${employee.last_name}`}
                 secondary={employee.position}
               />
-            </ListItem>
+            </ListItemButton>
           </Paper>
         ))}
       </List>
